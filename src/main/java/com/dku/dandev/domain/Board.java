@@ -3,6 +3,8 @@ package com.dku.dandev.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
+import java.time.LocalDateTime;
 
 @Entity
 public class Board {
@@ -11,8 +13,10 @@ public class Board {
     private Long id;
     private Long writerId;
     private String title;
+    @Lob
     private String content;
     private int likes;
+    private LocalDateTime createTime;
 
     public Board() {
     }
@@ -22,6 +26,12 @@ public class Board {
         this.title = title;
         this.content = content;
         this.likes = likes;
+        this.createTime = LocalDateTime.now();
+    }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 
     public void setId(Long id) {
@@ -62,5 +72,13 @@ public class Board {
 
     public void setLikes(int likes) {
         this.likes = likes;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
     }
 }
