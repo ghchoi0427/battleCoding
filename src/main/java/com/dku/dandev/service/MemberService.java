@@ -18,7 +18,7 @@ public class MemberService{
     }
 
     public void saveMember(MemberDto dto) {
-        Member member = new Member(dto.getName());
+        Member member = new Member(dto.getName(), dto.getPassword());
         repository.save(member);
     }
 
