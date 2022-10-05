@@ -6,9 +6,10 @@ public class MemberDto {
     private Long id;
     private String name;
 
-    public MemberDto(Long id, String name) {
-        this.id = id;
+    private String password;
+    public MemberDto(String name, String password) {
         this.name = name;
+        this.password = password;
     }
 
     public Long getId() {
@@ -27,7 +28,15 @@ public class MemberDto {
         this.name = name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public static MemberDto of(Member member) {
-        return new MemberDto(member.getId(), member.getName());
+        return new MemberDto(member.getName(), member.getPassword());
     }
 }
