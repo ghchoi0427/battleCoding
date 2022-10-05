@@ -12,8 +12,9 @@ public class Member {
 
     public Member() {}
 
-    public Member(String name) {
+    public Member(String name, String password) {
         this.name = name;
+        this.password = password;
     }
 
     public Long getId() {
