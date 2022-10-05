@@ -8,6 +8,7 @@ public class Member {
     @Id
     private Long id;
     private String name;
+    private String password;
 
     public Member() {}
 
@@ -29,5 +30,13 @@ public class Member {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

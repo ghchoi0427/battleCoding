@@ -3,20 +3,12 @@ package com.dku.dandev.dto;
 import com.dku.dandev.domain.Member;
 
 public class MemberDto {
-    private Long id;
     private String name;
+    private String password;
 
-    public MemberDto(Long id, String name) {
-        this.id = id;
+    public MemberDto(String name, String password) {
         this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.password = password;
     }
 
     public String getName() {
@@ -27,7 +19,15 @@ public class MemberDto {
         this.name = name;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public static MemberDto of(Member member) {
-        return new MemberDto(member.getId(), member.getName());
+        return new MemberDto(member.getName(), member.getPassword());
     }
 }
