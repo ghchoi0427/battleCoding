@@ -24,7 +24,7 @@ public class MemberController {
 
 
     @GetMapping("/signup")
-    public String addForm(@ModelAttribute("member") MemberDto memberDto) // TODO: 모델에트리뷰트 쌍따옴표 멤버 맞는지
+    public String addForm(@ModelAttribute("memberDto") MemberDto memberDto) // TODO: 모델에트리뷰트 쌍따옴표 멤버 맞는지
     {
         return "/signup";
     }
