@@ -7,47 +7,39 @@ import javax.persistence.Id;
 public class MatchRecord {
     @Id
     private Long id;
-    private Long hostId;
-    private Long guestId;
-    private MatchResult result;
+    private Long memberId; // 대결을 신청한 사람의 ID
+    private Long opponentId; // 대결을 수락한 사람의 ID
+    private MatchResult matchResult;    //대결을 신청한 사람 기준으로 승패여부
 
-    public MatchRecord() {}
-
-    public MatchRecord(Long hostId, Long guestId, MatchResult result) {
-        this.hostId = hostId;
-        this.guestId = guestId;
-        this.result = result;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getMemberId() {
+        return memberId;
     }
 
-    public Long getHostId() {
-        return hostId;
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
     }
 
-    public void setHostId(Long hostId) {
-        this.hostId = hostId;
+    public Long getOpponentId() {
+        return opponentId;
     }
 
-    public Long getGuestId() {
-        return guestId;
+    public void setOpponentId(Long opponentId) {
+        this.opponentId = opponentId;
     }
 
-    public void setGuestId(Long guestId) {
-        this.guestId = guestId;
+    public MatchResult getMatchResult() {
+        return matchResult;
     }
 
-    public MatchResult getResult() {
-        return result;
-    }
-
-    public void setResult(MatchResult result) {
-        this.result = result;
+    public void setMatchResult(MatchResult matchResult) {
+        this.matchResult = matchResult;
     }
 }
