@@ -1,6 +1,6 @@
-package com.dku.dandev.domain;
+package com.dku.dandev.dto;
 
-public class MatchRequest {
+public class MatchRequestDto {
     private Long host;
     private Long guest;
 

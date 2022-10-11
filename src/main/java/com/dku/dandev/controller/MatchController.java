@@ -1,6 +1,7 @@
 package com.dku.dandev.controller;
 
 import com.dku.dandev.domain.*;
+import com.dku.dandev.dto.MatchRequestDto;
 import com.dku.dandev.service.MatchService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class MatchController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity matchRequest(@ModelAttribute MatchRequest matchRequest, HttpServletResponse response) throws IOException {
+    public ResponseEntity matchRequest(@ModelAttribute MatchRequestDto matchRequest, HttpServletResponse response) throws IOException {
         String matchId = getMatchId();
         if (matchService.getRandomProblem() == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
