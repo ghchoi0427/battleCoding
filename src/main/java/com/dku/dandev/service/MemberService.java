@@ -18,12 +18,11 @@ public class MemberService{
     }
 
     public void saveMember(MemberDto dto) {
-        Member member = new Member(dto.getName());
-        repository.save(member);
+        repository.save(new Member(dto.getName(), dto.getPassword()));
     }
 
-    public Member getMemberById(MemberDto dto) {
-        return repository.findMemberById(dto.getId());
+    public Member getMemberById(Member member) {
+        return repository.findMemberById(member.getId());
     }
 
     public List<MemberDto> findAll() {
