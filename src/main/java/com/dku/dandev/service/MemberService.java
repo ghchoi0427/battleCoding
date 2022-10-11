@@ -21,8 +21,8 @@ public class MemberService{
         repository.save(new Member(dto.getName(), dto.getPassword()));
     }
 
-    public Member getMemberById(Member member) {
-        return repository.findMemberById(member.getId());
+    public Member getMemberById(Long memberId) {
+        return repository.findMemberById(memberId);
     }
 
     public List<MemberDto> findAll() {
