@@ -1,12 +1,14 @@
 package com.dku.dandev.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
 @Entity
 public class Problem {
     @Id
+    @GeneratedValue
     private Long id;
     @Lob
     private String question;

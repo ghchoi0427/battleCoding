@@ -1,11 +1,13 @@
 package com.dku.dandev.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
 public class MatchRecord {
     @Id
+    @GeneratedValue
     private Long id;
     private Long memberId; // 대결을 신청한 사람의 ID
     private Long opponentId; // 대결을 수락한 사람의 ID
