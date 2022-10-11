@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ * 경기 결과를 담는 엔티티
+ */
 @Entity
 public class MatchRecord {
     @Id

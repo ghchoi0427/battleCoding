@@ -3,6 +3,9 @@ package com.dku.dandev.domain;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+/**
+ * 경기 진행동안 필요한 정보를 담은 엔티티
+ */
 @Entity
 public class MatchSession {
     @Id

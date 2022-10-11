@@ -5,6 +5,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+/**
+ * 알고리즘 문제의 테스트케이스 엔티티
+ * Problem과 다대일 관계를 갖는다.
+ */
 @Entity
 public class Testcase {
     @Id

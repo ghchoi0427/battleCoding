@@ -5,6 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
+/**
+ * 알고리즘 문제 엔티티
+ */
 @Entity
 public class Problem {
     @Id
