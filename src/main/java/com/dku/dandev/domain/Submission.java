@@ -9,8 +9,7 @@ public class Submission {
     @Id
     @GeneratedValue
     private Long id;
-    @ManyToOne
-    private Problem problem;
+    private Long problemId;
     @Lob
     private String code;
     @Nullable
@@ -24,12 +23,12 @@ public class Submission {
         this.id = id;
     }
 
-    public Problem getProblem() {
-        return problem;
+    public Long getProblemId() {
+        return problemId;
     }
 
-    public void setProblem(Problem problem) {
-        this.problem = problem;
+    public void setProblemId(Long problemId) {
+        this.problemId = problemId;
     }
 
     public String getCode() {
