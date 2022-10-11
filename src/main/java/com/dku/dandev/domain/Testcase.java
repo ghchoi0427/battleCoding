@@ -8,15 +8,15 @@ import javax.persistence.ManyToOne;
 public class Testcase {
     @Id
     private Long id;
-    private Object input;
-    private Object output;
+    private String input;
+    private String output;
     @ManyToOne
     private Problem problem;
 
     public Testcase() {
     }
 
-    public Testcase(Object input, Object output, Problem problem) {
+    public Testcase(String input, String output, Problem problem) {
         this.input = input;
         this.output = output;
         this.problem = problem;
@@ -34,7 +34,7 @@ public class Testcase {
         return input;
     }
 
-    public void setInput(Object input) {
+    public void setInput(String input) {
         this.input = input;
     }
 
@@ -42,7 +42,7 @@ public class Testcase {
         return output;
     }
 
-    public void setOutput(Object output) {
+    public void setOutput(String output) {
         this.output = output;
     }
 
