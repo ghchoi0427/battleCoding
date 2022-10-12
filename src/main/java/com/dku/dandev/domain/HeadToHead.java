@@ -4,24 +4,38 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-/**
- * 경기 결과를 담는 엔티티
- */
 @Entity
-public class MatchRecord {
+/**
+ * 상대 전적을 나타내는 클래스
+ * 경기가 끝난 후 참가자 각각이 HeadToHead 기록을 따로 갖게 된다.
+ * ex) A와 B가 겨뤄 A가 이겼을 경우
+ * A는 MatchResult가 win인 HeadToHead 기록을, B는 lose인 기록을 갖는다.
+ *
+ * 과연 필요할까?
+ */
+public class HeadToHead {
     @Id
     @GeneratedValue
     private Long id;
-    private Long memberId; // 대결을 신청한 사람의 ID
-    private Long opponentId; // 대결을 수락한 사람의 ID
-    private MatchResult matchResult;    //대결을 신청한 사람 기준으로 승패여부
+    private Long memberId;
+    private Long opponentId;
+    private MatchResult matchResult;
 
-    public void setId(Long id) {
-        this.id = id;
+    public HeadToHead() {
+    }
+
+    public HeadToHead(Long memberId, Long opponentId, MatchResult matchResult) {
+        this.memberId = memberId;
+        this.opponentId = opponentId;
+        this.matchResult = matchResult;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getMemberId() {

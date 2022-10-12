@@ -1,25 +1,29 @@
 package com.dku.dandev.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
+/**
+ * 알고리즘 문제의 테스트케이스 엔티티
+ * Problem과 다대일 관계를 갖는다.
+ */
 @Entity
 public class Testcase {
     @Id
+    @GeneratedValue
     private Long id;
-    private Object input;
-    private Object output;
-    @ManyToOne
-    private Problem problem;
+    private String input;
+    private String output;
+    private Long problemId;
 
     public Testcase() {
     }
 
-    public Testcase(Object input, Object output, Problem problem) {
+    public Testcase(String input, String output, Long problemId) {
         this.input = input;
         this.output = output;
-        this.problem = problem;
+        this.problemId = problemId;
     }
 
     public Long getId() {
@@ -34,7 +38,7 @@ public class Testcase {
         return input;
     }
 
-    public void setInput(Object input) {
+    public void setInput(String input) {
         this.input = input;
     }
 
@@ -42,15 +46,15 @@ public class Testcase {
         return output;
     }
 
-    public void setOutput(Object output) {
+    public void setOutput(String output) {
         this.output = output;
     }
 
-    public Problem getProblem() {
-        return problem;
+    public Long getProblemId() {
+        return problemId;
     }
 
-    public void setProblem(Problem problem) {
-        this.problem = problem;
+    public void setProblemId(Long problemId) {
+        this.problemId = problemId;
     }
 }

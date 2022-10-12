@@ -31,5 +31,13 @@ public class MemberController {
         }
         memberService.saveMember(memberDto);
         return new ResponseEntity<>(HttpStatus.OK);
+
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    @GetMapping("/{memberId}")
+    public MemberDto getMemberInfo(@PathVariable Long memberId) {
+        return MemberDto.of(memberService.getMemberById(memberId));
     }
 }
