@@ -3,7 +3,6 @@ package com.dku.dandev.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 
 /**
  * 알고리즘 문제의 테스트케이스 엔티티
@@ -16,16 +15,15 @@ public class Testcase {
     private Long id;
     private String input;
     private String output;
-    @ManyToOne
-    private Problem problem;
+    private Long problemId;
 
     public Testcase() {
     }
 
-    public Testcase(String input, String output, Problem problem) {
+    public Testcase(String input, String output, Long problemId) {
         this.input = input;
         this.output = output;
-        this.problem = problem;
+        this.problemId = problemId;
     }
 
     public Long getId() {
@@ -52,11 +50,11 @@ public class Testcase {
         this.output = output;
     }
 
-    public Problem getProblem() {
-        return problem;
+    public Long getProblemId() {
+        return problemId;
     }
 
-    public void setProblem(Problem problem) {
-        this.problem = problem;
+    public void setProblemId(Long problemId) {
+        this.problemId = problemId;
     }
 }
