@@ -18,7 +18,7 @@ public class MemberService{
     }
 
     public void saveMember(MemberDto dto) {
-        repository.save(new Member(dto.getName(), dto.getPassword()));
+        repository.save(new Member(dto.getLoginId(), dto.getPassword()));
     }
 
     public Member getMemberById(Long memberId) {
