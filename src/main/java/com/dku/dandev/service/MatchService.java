@@ -54,6 +54,14 @@ public class MatchService {
         matchSessionRepository.save(matchSession);
     }
 
+    public MatchSession getMatchSession(String matchSessionId) {
+        if (matchSessionRepository.findById(matchSessionId).isPresent()) {
+            return matchSessionRepository.findById(matchSessionId).get();
+        } else {
+            return null;
+        }
+    }
+
     public void saveHeadToHead(HeadToHead headToHead) {
         headToHeadRepository.save(headToHead);
     }
