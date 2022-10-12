@@ -1,8 +1,11 @@
 package com.dku.dandev.service;
 
+import com.dku.dandev.domain.Member;
 import com.dku.dandev.dto.MemberDto;
 import com.dku.dandev.repository.MemberRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class LoginService {
@@ -13,9 +16,12 @@ public class LoginService {
         this.memberRepository = memberRepository;
     }
 
-    public MemberDto login(String loginId, String password) {
-        return memberRepository.findByLoginId(loginId)
+    public Member login(String loginId, String password) {
+
+        Optional<Member> member = memberRepository.findMemberByLoginId(loginId);
+        return member
                 .filter(m -> m.getPassword().equals(password))
-                .orElse(null); //TODO: JPA 사용법 숙지 후 메서드 구현
+                .orElse(null);
     }
+
 }
