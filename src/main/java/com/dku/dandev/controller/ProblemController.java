@@ -1,6 +1,7 @@
 package com.dku.dandev.controller;
 
 import com.dku.dandev.domain.Submission;
+import com.dku.dandev.dto.SubmissionDto;
 import com.dku.dandev.service.ProblemService;
 import com.dku.dandev.util.TestRunner;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,9 +24,9 @@ public class ProblemController {
     }
 
     @PostMapping("/submit")
-    public void submit(@ModelAttribute Submission submission) throws IOException {
-        String code = submission.getCode();
-        Long submissionId = problemService.saveSubmission(submission);
+    public void submit(@ModelAttribute SubmissionDto submissionDto) throws IOException {
+        String code = submissionDto.getCode();
+        Long submissionId = problemService.saveSubmission(new Submission(submissionDto.getProblemId(), submissionDto.getCode()));
         testRunner.createSubmissionFile(submissionId, code);
     }
 }
