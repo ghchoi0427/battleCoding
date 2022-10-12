@@ -1,7 +1,7 @@
 package com.dku.dandev.controller;
 
 import com.dku.dandev.domain.Member;
-import com.dku.dandev.form.LoginForm;
+import com.dku.dandev.dto.LoginForm;
 import com.dku.dandev.service.LoginService;
 import com.dku.dandev.session.SessionConst;
 import org.springframework.http.HttpStatus;
@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -24,8 +25,7 @@ public class LoginController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> login(@ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
-        System.out.println("in");
+    public ResponseEntity<Void> login(@ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -38,18 +38,19 @@ public class LoginController {
         }
 
         HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER,loginMember);
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
         //로그인 성공 처리
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/logout")
-    public String logout(HttpServletRequest request) {
+    public ResponseEntity<Void> logout(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession(false);
-        if (session != null)
+        if (session != null) {
             session.invalidate();
-        return "redirect:/";
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
