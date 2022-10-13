@@ -46,8 +46,9 @@ public class MatchService {
         return problems.get(new Random().nextInt(problems.size()));
     }
 
-    public void saveProblem(Problem problem) {
-        problemRepository.save(problem);
+    public Long saveProblem(Problem problem) {
+        Problem save = problemRepository.save(problem);
+        return save.getId();
     }
 
     public void saveMatchSession(MatchSession matchSession) {
