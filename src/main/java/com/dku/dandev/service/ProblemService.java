@@ -31,4 +31,8 @@ public class ProblemService {
         return testcaseRepository.findTestcasesByProblemId(problemId);
     }
 
+    public void saveTestcase(Testcase testcase) {
+        testcaseRepository.save(testcase);
+    }
+
 }
