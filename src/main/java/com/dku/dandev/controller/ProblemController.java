@@ -7,8 +7,8 @@ import com.dku.dandev.service.ProblemService;
 import com.dku.dandev.util.TestRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +27,7 @@ public class ProblemController {
     }
 
     @PostMapping("/submit")
-    public ResponseEntity<GradingEntity<TestStatus>> submit(@ModelAttribute SubmissionDto submissionDto) throws IOException {
+    public ResponseEntity<GradingEntity<TestStatus>> submit(@RequestBody SubmissionDto submissionDto) throws IOException {
         String code = submissionDto.getCode();
         Long problemId = submissionDto.getProblemId();
         GradingEntity<TestStatus> testResult = testRunner.runTest(code, problemService.findTestcasesByProblemId(problemId));
