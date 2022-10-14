@@ -1,8 +1,9 @@
 package com.dku.dandev.domain;
 
-import org.springframework.lang.Nullable;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity
 public class Submission {
@@ -12,8 +13,14 @@ public class Submission {
     private Long problemId;
     @Lob
     private String code;
-    @Nullable
-    private int score;
+
+    public Submission() {
+    }
+
+    public Submission(Long problemId, String code) {
+        this.problemId = problemId;
+        this.code = code;
+    }
 
     public Long getId() {
         return id;
@@ -39,11 +46,4 @@ public class Submission {
         this.code = code;
     }
 
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
 }
