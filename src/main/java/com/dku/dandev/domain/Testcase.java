@@ -34,7 +34,7 @@ public class Testcase {
         this.id = id;
     }
 
-    public Object getInput() {
+    public String getInput() {
         return input;
     }
 
@@ -42,7 +42,7 @@ public class Testcase {
         this.input = input;
     }
 
-    public Object getOutput() {
+    public String getOutput() {
         return output;
     }
 
