@@ -6,6 +6,7 @@ import com.dku.dandev.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,5 +28,10 @@ public class MemberService{
 
     public List<MemberDto> findAll() {
         return repository.findAll().stream().map(MemberDto::of).collect(Collectors.toList());
+    }
+
+    public Member login(String loginId, String password) {
+        Optional<Member> member = repository.findMemberByLoginId(loginId);
+        return member.filter(m -> m.getPassword().equals(password)).orElse(null);
     }
 }
