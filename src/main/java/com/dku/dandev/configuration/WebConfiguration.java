@@ -30,6 +30,12 @@ public class WebConfiguration implements WebMvcConfigurer {
 
        */
         registry.addInterceptor(new LoginInterceptor())
+                .addPathPatterns("/home");
+
+        registry.addInterceptor(new LoginInterceptor())
+                .addPathPatterns("/match/new");
+
+        registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/member");
 
 
