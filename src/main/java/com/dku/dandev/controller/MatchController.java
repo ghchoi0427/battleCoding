@@ -1,14 +1,15 @@
 package com.dku.dandev.controller;
 
-import com.dku.dandev.domain.*;
+import com.dku.dandev.domain.HeadToHead;
+import com.dku.dandev.domain.MatchRecord;
+import com.dku.dandev.domain.MatchResult;
+import com.dku.dandev.domain.MatchSession;
 import com.dku.dandev.dto.MatchRequestDto;
 import com.dku.dandev.service.MatchService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.UUID;
 
 @RestController
