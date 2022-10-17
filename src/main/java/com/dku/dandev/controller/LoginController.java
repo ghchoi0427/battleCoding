@@ -23,7 +23,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
+    public ResponseEntity<Void> login(@RequestBody LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -52,7 +52,7 @@ public class LoginController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Void> save(@ModelAttribute MemberDto memberDto, BindingResult result) {
+    public ResponseEntity<Void> save(@RequestBody MemberDto memberDto, BindingResult result) {
         if (result.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

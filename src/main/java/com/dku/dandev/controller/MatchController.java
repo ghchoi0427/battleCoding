@@ -22,7 +22,7 @@ public class MatchController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<MatchSession> matchRequest(@ModelAttribute MatchRequestDto matchRequest, HttpServletResponse response) throws IOException {
+    public ResponseEntity<MatchSession> matchRequest(@RequestBody MatchRequestDto matchRequest, HttpServletResponse response) throws IOException {
         String matchId = getMatchId();
         if (matchService.getRandomProblem() == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -40,7 +40,7 @@ public class MatchController {
     }
 
     @PostMapping("/save")
-    public void saveMatchRecord(@ModelAttribute MatchRecord matchRecord) {
+    public void saveMatchRecord(@RequestBody MatchRecord matchRecord) {
         saveHeadToHead(matchRecord);//TODO: HeadToHead 필요한가
         matchService.saveMatchRecord(matchRecord);
     }
