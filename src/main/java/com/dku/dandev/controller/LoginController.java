@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 public class LoginController {
@@ -22,6 +23,11 @@ public class LoginController {
         this.memberService = memberService;
     }
 
+    @GetMapping("/login")
+    public ResponseEntity<Void> loginHome() {
+        System.out.println("returning");
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     @PostMapping("/login")
     public ResponseEntity<Void> login(@ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
