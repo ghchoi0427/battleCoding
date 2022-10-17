@@ -22,14 +22,13 @@ public class MatchController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<MatchSession> matchRequest(@RequestBody MatchRequestDto matchRequest, HttpServletResponse response) throws IOException {
+    public ResponseEntity<MatchSession> matchRequest(@RequestBody MatchRequestDto matchRequest) {
         String matchId = getMatchId();
         if (matchService.getRandomProblem() == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             MatchSession matchSession = new MatchSession(matchId, matchService.getRandomProblem().getId(), matchRequest.getHost(), matchRequest.getGuest());
             matchService.saveMatchSession(matchSession);
-            response.sendRedirect("/match/" + matchId);
             return new ResponseEntity<>(matchSession, HttpStatus.OK);
         }
     }
