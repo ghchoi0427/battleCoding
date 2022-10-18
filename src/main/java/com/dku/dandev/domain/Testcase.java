@@ -3,6 +3,7 @@ package com.dku.dandev.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 /**
  * 알고리즘 문제의 테스트케이스 엔티티
@@ -13,7 +14,9 @@ public class Testcase {
     @Id
     @GeneratedValue
     private Long id;
+    @Lob
     private String input;
+    @Lob
     private String output;
     private Long problemId;
 
