@@ -56,4 +56,8 @@ public class ProblemController {
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Integer> getCount() {
+        return new ResponseEntity<>(problemService.getAllProblems().size(), HttpStatus.OK);
+    }
 }
