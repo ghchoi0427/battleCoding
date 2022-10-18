@@ -10,6 +10,8 @@ import org.jsoup.nodes.Element;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Crawler {
     private final String baseUrl = "https://www.acmicpc.net";
@@ -21,19 +23,21 @@ public class Crawler {
     }
 
     public void crawlProblems(int rangeFrom, int rangeTo) {
+        ExecutorService service = Executors.newCachedThreadPool();
         for (int i = rangeFrom; i <= rangeTo; i++) {
-            run(i);
+            int finalI1 = i;
+            service.submit(() -> crawlSinglePage(finalI1));
         }
+        service.shutdown();
     }
 
-    public void run(int problemNumber) {
+    public void crawlSinglePage(int problemNumber) {
         final String url = baseUrl + problemUrl + problemNumber;
         Connection connection = Jsoup.connect(url);
 
         try {
             Document document = connection.get();
             Element desc = document.getElementById("problem_description");
-
             Element input = document.getElementById("problem_input");
             Element output = document.getElementById("problem_output");
             assertElementsNotNull(desc, input, output);
