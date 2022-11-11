@@ -1,6 +1,7 @@
 package com.dku.dandev.controller;
 
-import com.dku.dandev.domain.SystemMessage;
+import com.dku.dandev.domain.ChatMessage;
+import com.dku.dandev.domain.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,18 +29,15 @@ public class SocketEventListener {
     public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 
-//        String username = (String) headerAccessor.getSessionAttributes().get("username");
+        String username = (String) headerAccessor.getSessionAttributes().get("username");
+        if (username != null) {
+            logger.info("User Disconnected : " + username);
 
-        messagingTemplate.convertAndSend("/topic/public", new SystemMessage());
-//        if (username != null) {
-//            logger.info("User Disconnected : " + username);
-//
-//            SystemMessage systemMessage = new SystemMessage();
-//
-////            chatMessage.setType(MessageType.LEAVE);
-////            chatMessage.setSender(username);
-//
-//            messagingTemplate.convertAndSend("/topic/public", chatMessage);
-//        }
+            ChatMessage chatMessage = new ChatMessage();
+            chatMessage.setType(MessageType.LEAVE);
+            chatMessage.setSender(username);
+
+            messagingTemplate.convertAndSend("/topic/public", chatMessage);
+        }
     }
 }
