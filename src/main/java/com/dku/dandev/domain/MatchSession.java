@@ -11,13 +11,13 @@ public class MatchSession {
     @Id
     private String matchId;
     private Long problemId;
-    private Long hostId;
-    private Long guestId;
+    private String hostId;
+    private String guestId;
 
     public MatchSession() {
     }
 
-    public MatchSession(String matchId, Long problemId, Long hostId, Long guestId) {
+    public MatchSession(String matchId, Long problemId, String hostId, String guestId) {
         this.matchId = matchId;
         this.problemId = problemId;
         this.hostId = hostId;
@@ -40,19 +40,19 @@ public class MatchSession {
         this.problemId = problemId;
     }
 
-    public Long getHostId() {
+    public String getHostId() {
         return hostId;
     }
 
-    public void setHostId(Long hostId) {
+    public void setHostId(String hostId) {
         this.hostId = hostId;
     }
 
-    public Long getGuestId() {
+    public String getGuestId() {
         return guestId;
     }
 
-    public void setGuestId(Long guestId) {
+    public void setGuestId(String guestId) {
         this.guestId = guestId;
     }
 }

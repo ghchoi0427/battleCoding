@@ -1,22 +1,22 @@
 package com.dku.dandev.dto;
 
 public class MatchRequestDto {
-    private Long host;
-    private Long guest;
+    private String host;
+    private String guest;
 
-    public Long getHost() {
+    public String getHost() {
         return host;
     }
 
-    public void setHost(Long host) {
+    public void setHost(String host) {
         this.host = host;
     }
 
-    public Long getGuest() {
+    public String getGuest() {
         return guest;
     }
 
-    public void setGuest(Long guest) {
+    public void setGuest(String guest) {
         this.guest = guest;
     }
 }
