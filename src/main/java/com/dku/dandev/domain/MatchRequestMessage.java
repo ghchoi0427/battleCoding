@@ -1,24 +1,29 @@
 package com.dku.dandev.domain;
 
+import com.sun.istack.NotNull;
+
 public class MatchRequestMessage {
-    private Long sender;
-    private Long receiver;
+    @NotNull
+    private String sender;
+    private String receiver;
     private String matchId;
 
-    public Long getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public void setSender(Long sender) {
+    public void setSender(String sender) {
         this.sender = sender;
     }
 
-    public Long getReceiver() {
+    public String getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(Long receiver) {
-        this.receiver = receiver;
+    public void setReceiver(String receiver) {
+        if (!receiver.equals(sender)) {
+            this.receiver = receiver;
+        }
     }
 
     public String getMatchId() {
