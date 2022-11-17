@@ -38,12 +38,12 @@ public class MatchService {
         } else return null;
     }
 
-    public Problem getRandomProblem() {
+    public Long getRandomProblem() {
         List<Problem> problems = problemRepository.findAll();
         if (problems.size() == 0) {
             return null;
         }
-        return problems.get(new Random().nextInt(problems.size()));
+        return problems.get(new Random().nextInt(problems.size())).getId();
     }
 
     public Long saveProblem(Problem problem) {
