@@ -1,5 +1,6 @@
 package com.dku.dandev.service;
 
+import com.dku.dandev.domain.Problem;
 import com.dku.dandev.domain.Submission;
 import com.dku.dandev.domain.Testcase;
 import com.dku.dandev.repository.ProblemRepository;
@@ -33,6 +34,10 @@ public class ProblemService {
 
     public void saveTestcase(Testcase testcase) {
         testcaseRepository.save(testcase);
+    }
+
+    public Problem findProblem(Long id) {
+        return problemRepository.findById(id).get();
     }
 
 }
