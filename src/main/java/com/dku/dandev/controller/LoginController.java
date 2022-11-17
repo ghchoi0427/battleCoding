@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 public class LoginController {
@@ -22,19 +23,24 @@ public class LoginController {
         this.memberService = memberService;
     }
 
+    @GetMapping("/memberInfo")
+    public List<MemberDto> viewMembers() {
+        return memberService.findAll();
+    }
+
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
+    public ResponseEntity login(@RequestBody LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         Member loginMember = memberService.login(form.getLoginId(), form.getPassword());
         if (loginMember == null) {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>("로그인 실패", HttpStatus.OK);
         }
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("로그인 성공", HttpStatus.OK);
     }
 
     @PostMapping("/logout")
