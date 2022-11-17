@@ -1,25 +1,26 @@
 package com.dku.dandev.controller;
 
-import com.dku.dandev.domain.HeadToHead;
-import com.dku.dandev.domain.MatchRecord;
-import com.dku.dandev.domain.MatchResult;
-import com.dku.dandev.domain.MatchSession;
+import com.dku.dandev.domain.*;
 import com.dku.dandev.dto.MatchRequestDto;
 import com.dku.dandev.service.MatchService;
+import com.dku.dandev.service.ProblemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-@RestController
+@Controller
 @RequestMapping("/match")
 public class MatchController {
 
     private final MatchService matchService;
+    private final ProblemService problemService;
 
-    public MatchController(MatchService matchService) {
+    public MatchController(MatchService matchService, ProblemService problemService) {
         this.matchService = matchService;
+        this.problemService = problemService;
     }
 
     @PostMapping("/new")
@@ -28,7 +29,7 @@ public class MatchController {
         if (matchService.getRandomProblem() == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            MatchSession matchSession = new MatchSession(matchId, matchService.getRandomProblem().getId(), matchRequest.getHost(), matchRequest.getGuest());
+            MatchSession matchSession = new MatchSession(matchId, matchService.getRandomProblem(), matchRequest.getHost(), matchRequest.getGuest());
             matchService.saveMatchSession(matchSession);
             return new ResponseEntity<>(matchSession, HttpStatus.OK);
         }
@@ -37,6 +38,16 @@ public class MatchController {
     @GetMapping("/{matchId}")
     public MatchSession enterMatch(@PathVariable String matchId) {
         return matchService.getMatchSession(matchId);
+    }
+
+    @GetMapping("/{matchId}/problem")
+    public Problem getProblem(@PathVariable String matchId) {
+        MatchSession matchSession = matchService.getMatchSession(matchId);
+        Long problemId = matchSession.getProblemId();
+        if (matchSession.getProblemId() == null) {
+            return null;
+        }
+        return problemService.findProblem(problemId);
     }
 
     @PostMapping("/save")
