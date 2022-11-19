@@ -7,14 +7,18 @@ import com.dku.dandev.service.MemberService;
 import com.dku.dandev.session.SessionConst;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.UUID;
 
-@RestController
+@Controller
 public class LoginController {
 
     private final MemberService memberService;
@@ -26,6 +30,19 @@ public class LoginController {
     @GetMapping("/memberInfo")
     public List<MemberDto> viewMembers() {
         return memberService.findAll();
+    }
+
+    @GetMapping("/tempLogin")
+    public String tempLogin(HttpServletResponse response) {
+        String id = UUID.randomUUID().toString().split("-")[0];
+        memberService.saveMember(new MemberDto(id, "pw"));
+        setCookie(response, id);
+        return "redirect:/home";
+    }
+
+    private void setCookie(HttpServletResponse response, String id) {
+        Cookie cookie = new Cookie("userId", id);
+        response.addCookie(cookie);
     }
 
     @PostMapping("/login")

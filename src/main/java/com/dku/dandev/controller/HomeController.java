@@ -1,14 +1,16 @@
 package com.dku.dandev.controller;
 
-import com.dku.dandev.dto.MemberDto;
 import com.dku.dandev.service.MemberService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 
-@RestController
+@Controller
 @RequestMapping("/home")
 public class HomeController {
 
@@ -19,7 +21,12 @@ public class HomeController {
     }
 
     @GetMapping("")
-    public List<MemberDto> home() {
-        return memberService.findAll();
+    public String home(Model model, HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String userID = Arrays.stream(cookies).filter(e -> e.getName().equals("userId")).map(Cookie::getValue).findFirst().get();
+
+        model.addAttribute("username", userID);
+        model.addAttribute("members", memberService.findAll());
+        return "home";
     }
 }

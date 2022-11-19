@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<table class="tb_col">
+    <tr>
+        <th>name</th>
+    </tr>
+    <tr th:each="member : ${members}">
+        <td th:text="${member.getLoginId()}"></td>
+        <td>
+            <button th:myName="${member.getLoginId()}" th:onclick="sendMatchRequest(this.getAttribute('myName'))">match
+                request
+            </button>
+        </td>
+    </tr>
+</table>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script th:inline="javascript">
+    var stompClient = null;
+    var username = null;
+
+    window.onload = function () {
+        connect();
+    }
+
+    function connect() {
+        username = [[${username}]];
+        console.log(username);
+
+        if (username) {
+            var socket = new SockJS('/stomp');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, onConnected, onError);
+        }
+    }
+
+    function onConnected() {
+        stompClient.subscribe('/topic/public', onMessageReceived);
+        // stompClient.send("/app/chat.addUser", {}, JSON.stringify({sender: username, type: 'JOIN'}));
+    }
+
+    function onError() {
+        alert("error");
+    }
+
+    function sendMatchRequest(opponent) {
+        stompClient.send("/app/chat.sendRequest", {}, JSON.stringify({
+            sender: username,
+            receiver: opponent,
+            matchId: 1
+        }));
+    }
+
+
+    function onMessageReceived(payload) {
+        var message = JSON.parse(payload.body);
+        if (message.receiver === username) {
+            alert(message.sender + "로부터 매치 요청이 도착했습니다: ");
+        }
+    }
+
+</script>
+</body>
+</html>
