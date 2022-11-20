@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Match</title>
+</head>
+<body>
+
+<p th:text="'match id = '+${matchSession.getMatchId()}"></p>
+<p th:text="'host id = '+${matchSession.getHostId()}"></p>
+<p th:text="'guest id = '+${matchSession.getGuestId()}"></p>
+<p th:text="'problem id = '+${matchSession.getProblemId()}"></p>
+<p id="problem_desc"></p>
+
+<form action="/problem/submit" method="post">
+    <p>
+        <textarea name="code" placeholder="코드를 입력하세요"></textarea>
+    </p>
+    <p>
+<!--        <input type="submit">-->
+        <button th:onclick="submit()"></button>
+    </p>
+</form>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+    window.onload = function () {
+        getProblem("[[${matchId}]]");
+    };
+
+    function getProblem(matchId) {
+        $.ajax({
+            url: "/match/" + matchId + "/problem",
+            type: "GET",
+            contentType: "application/json",
+            success: function (result) {
+                if (result) {
+                    console.log(result);
+                    document.getElementById("problem_desc").innerHTML = result.question + result.example;
+                } else {
+                    alert("문제 데이터가 없습니다.");
+                }
+            },
+            error: function (error) {
+                alert("문제 로드 에러 발생");
+                alert(JSON.stringify(error));
+            }
+        })
+    }
+
+
+    function submit(problemId, code) {
+        $.ajax({
+            url: "/problem/submit",
+            type: "POST",
+            data: JSON.stringify({
+                problemId: problemId,
+                code: code
+            }),
+            contentType: "application/json",
+            success: function (result) {
+                if (result) {
+                    console.log(result);
+                } else {
+                    alert("반환 데이터가 없습니다.");
+                }
+            },
+            error: function (error) {
+                alert("문제 제출 에러 발생");
+                console.log(JSON.stringify(error));
+            }
+        })
+    }
+</script>
+</body>
+</html>
