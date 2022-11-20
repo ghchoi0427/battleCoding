@@ -12,18 +12,17 @@
 <p th:text="'problem id = '+${matchSession.getProblemId()}"></p>
 <p id="problem_desc"></p>
 
-<form action="/problem/submit" method="post">
-    <p>
-        <textarea name="code" placeholder="코드를 입력하세요"></textarea>
-    </p>
-    <p>
-<!--        <input type="submit">-->
-        <button th:onclick="submit()"></button>
-    </p>
-</form>
+<p>
+    <textarea id="code_input" placeholder="코드를 입력하세요"></textarea>
+</p>
+<p>
+    <button th:onclick="submit()">submit</button>
+</p>
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
+    var problemId;
+
     window.onload = function () {
         getProblem("[[${matchId}]]");
     };
@@ -36,6 +35,7 @@
             success: function (result) {
                 if (result) {
                     console.log(result);
+                    problemId = result.id;
                     document.getElementById("problem_desc").innerHTML = result.question + result.example;
                 } else {
                     alert("문제 데이터가 없습니다.");
@@ -49,7 +49,10 @@
     }
 
 
-    function submit(problemId, code) {
+    function submit() {
+        let code = document.getElementById("code_input").value;
+        console.log(problemId);
+
         $.ajax({
             url: "/problem/submit",
             type: "POST",
@@ -60,7 +63,7 @@
             contentType: "application/json",
             success: function (result) {
                 if (result) {
-                    console.log(result);
+                    console.log(JSON.stringify(result));
                 } else {
                     alert("반환 데이터가 없습니다.");
                 }
