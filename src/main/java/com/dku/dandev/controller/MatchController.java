@@ -7,6 +7,7 @@ import com.dku.dandev.service.ProblemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -36,12 +37,15 @@ public class MatchController {
     }
 
     @GetMapping("/{matchId}")
-    public MatchSession enterMatch(@PathVariable String matchId) {
-        return matchService.getMatchSession(matchId);
+    public String enterMatch(@PathVariable String matchId, Model model) {
+        model.addAttribute("matchSession", matchService.getMatchSession(matchId));
+        return "match";
     }
 
+    @ResponseBody
     @GetMapping("/{matchId}/problem")
-    public Problem getProblem(@PathVariable String matchId) {
+    public Problem getProblem(@PathVariable String matchId, Model model) {
+        model.addAttribute("matchId", matchId);
         MatchSession matchSession = matchService.getMatchSession(matchId);
         Long problemId = matchSession.getProblemId();
         if (matchSession.getProblemId() == null) {
