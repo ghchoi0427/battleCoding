@@ -25,7 +25,7 @@ public class HomeController {
         Cookie[] cookies = request.getCookies();
         String userID = Arrays.stream(cookies).filter(e -> e.getName().equals("userId")).map(Cookie::getValue).findFirst().get();
 
-        model.addAttribute("username", userID);
+        model.addAttribute("userID", userID);
         model.addAttribute("members", memberService.findAll());
         return "home";
     }
