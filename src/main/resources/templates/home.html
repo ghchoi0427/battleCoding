@@ -12,12 +12,22 @@
     <tr th:each="member : ${members}">
         <td th:text="${member.getLoginId()}"></td>
         <td>
-            <button th:loginId="${member.getLoginId()}" th:onclick="sendMatchRequest(this.getAttribute('loginId'))">대결 신청
+            <button th:loginId="${member.getLoginId()}" th:onclick="sendMatchRequest(this.getAttribute('loginId'))">대결
+                신청
             </button>
         </td>
     </tr>
 </table>
-
+<p></p>
+<script type="text/javascript">
+    function matchRequestPopup(sender, matchId) {
+        if (confirm(sender + "로부터 매치 요청이 도착했습니다: ")) {
+            redirectToMatch(matchId);
+        } else {
+            // alert("거절");
+        }
+    }
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script th:inline="javascript">
@@ -48,21 +58,43 @@
         alert("error");
     }
 
-    function sendMatchRequest(opponent) {
+    function getMatchId() {
+        $.ajax({
+            url: "/match/new",
+            type: "GET",
+            contentType: "application/json",
+            success: function (result) {
+                if (result) {
+
+                } else {
+                    alert("db에 problem 컨텐츠가 없습니다.");
+                }
+            },
+            error: function () {
+                alert("에러 발생");
+            }
+        })
+    }
+
+    function sendMatchRequestSocket(opponent, matchId) {
         stompClient.send("/app/chat.sendRequest", {}, JSON.stringify({
             sender: userId,
             receiver: opponent,
-            matchId: 1
+            matchId: matchId
         }));
+    }
 
+    function sendMatchRequest(opponent) {
         getMatchSession(opponent);
+
     }
 
 
     function onMessageReceived(payload) {
         var message = JSON.parse(payload.body);
         if (message.receiver === userId) {
-            alert(message.sender + "로부터 매치 요청이 도착했습니다: ");
+            let parse = JSON.parse(payload.body);
+            matchRequestPopup(String(message.sender), String(parse.matchId));
         }
     }
 
@@ -80,7 +112,8 @@
             contentType: "application/json",
             success: function (result) {
                 if (result) {
-                    redirectToMatch(result);
+                    redirectToMatch(result.matchId);
+                    sendMatchRequestSocket(guestId, result.matchId);
                 } else {
                     alert("db에 problem 컨텐츠가 없습니다.");
                 }
@@ -91,8 +124,7 @@
         })
     }
 
-    function redirectToMatch(result) {
-        matchId = result.matchId
+    function redirectToMatch(matchId) {
         document.location.href = '/match/' + matchId
     }
 
