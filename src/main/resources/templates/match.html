@@ -19,12 +19,18 @@
     <button th:onclick="submit()">submit</button>
 </p>
 
+<p id="score"></p>
+<p id="demo"></p>
+
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
     var problemId;
+    var offset;
 
     window.onload = function () {
         getProblem("[[${matchId}]]");
+        setInterval(countDown, 1000);
+        setTimeOffset()
     };
 
     function getProblem(matchId) {
@@ -51,7 +57,6 @@
 
     function submit() {
         let code = document.getElementById("code_input").value;
-        console.log(problemId);
 
         $.ajax({
             url: "/problem/submit",
@@ -64,6 +69,11 @@
             success: function (result) {
                 if (result) {
                     console.log(JSON.stringify(result));
+                    if (result.testResult === 'succeed') {
+                        document.getElementById("score").innerHTML = "score = " + result.body;
+                    } else {
+                        document.getElementById("score").innerHTML = result.body;
+                    }
                 } else {
                     alert("반환 데이터가 없습니다.");
                 }
@@ -74,6 +84,33 @@
             }
         })
     }
+
+
+    function setTimeOffset() {
+        offset = new Date();
+    }
+
+
+    function countDown() {
+        var countDownDate = offset;
+        var now = new Date().getTime();
+        var distance = now - countDownDate;
+
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+            + minutes + "m " + seconds + "s ";
+
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("demo").innerHTML = "EXPIRED";
+        }
+
+    }
+
 </script>
 </body>
 </html>
