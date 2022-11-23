@@ -2,13 +2,14 @@ package com.dku.dandev.domain;
 
 public class SystemMessage {
 
-    public enum MessageType{
+    public enum MessageType {
         ENTER, GAME_START, GAME_END, UPDATE_SCORE
     }
 
     private MessageType messageType;
     private String matchId;
-    private Long sender;
+    private String sender;
+    private String body;
 
     public MessageType getMessageType() {
         return messageType;
@@ -26,11 +27,19 @@ public class SystemMessage {
         this.matchId = matchId;
     }
 
-    public Long getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public void setSender(Long sender) {
+    public void setSender(String sender) {
         this.sender = sender;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
     }
 }
