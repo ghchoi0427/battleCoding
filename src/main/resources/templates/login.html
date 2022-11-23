@@ -60,7 +60,7 @@
          }
 
         .logintype {
-
+            width: 70%;
             margin: 200px auto;
             background: #efefef;
             padding: 60px 120px 80px 120px;
@@ -68,6 +68,21 @@
             box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
             border-radius: 0.375rem;
            }
+
+        .signup-link-inlogin{
+            float:right;
+            margin-top: 10px;
+        }
+
+        .signuplink{
+            text-decoration: none;
+            color: grey;
+        }
+
+        .pw-form{
+            padding-top: 10px;
+        }
+
     </style>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
@@ -99,18 +114,24 @@
 
 <!--body-->
 <div class="container contents">
-    <div class="container login-container">
+    <div class="container">
         <form class="logintype">
-            <div class="form-group">
-                <label for="exampleInputEmail1">아이디</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="아이디를 입력하세요.">
-                <small id="emailHelp" class="form-text text-muted">여기에 메시지</small>
+            <div class="form-group id-form">
+                <label for="InputId">아이디</label>
+                <input type="id" class="form-control" id="InputId" aria-describedby="emailHelp" placeholder="아이디를 입력하세요.">
+                <small id="idHelp" class="form-text text-muted">여기에 메시지</small>
             </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">비밀번호</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="비밀번호를 입력하세요.">
+
+            <div class="form-group pw-form">
+                <label for="InputPassword">비밀번호</label>
+                <input type="password" class="form-control" id="InputPassword" placeholder="비밀번호를 입력하세요.">
             </div>
-            <button type="submit" class="btn btn-primary submitbtn">Submit</button>
+            <button type="submit" class="btn btn-primary submitbtn">로그인</button>
+            <span class="signup-link-inlogin">
+                <a class="signuplink" href="/signup">
+                    회원가입
+                </a>
+            </span>
         </form>
     </div>
 </div>
