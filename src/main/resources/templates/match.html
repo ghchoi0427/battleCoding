@@ -10,6 +10,13 @@
 <p th:text="'host id = '+${matchSession.getHostId()}"></p>
 <p th:text="'guest id = '+${matchSession.getGuestId()}"></p>
 <p th:text="'problem id = '+${matchSession.getProblemId()}"></p>
+
+<a th:text="'my score:'"></a>
+<a id="my_score"></a>
+<p></p>
+<a th:text="'opponent\'s score:'"></a>
+<a id="opponent_score"></a>
+
 <p id="problem_desc"></p>
 
 <p>
@@ -22,15 +29,21 @@
 <p id="score"></p>
 <p id="demo"></p>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
+    var stompClient = null;
     var problemId;
+    var userId;
+    var matchId;
     var offset;
 
     window.onload = function () {
         getProblem("[[${matchId}]]");
         setInterval(countDown, 1000);
         setTimeOffset()
+        matchConnect();
     };
 
     function getProblem(matchId) {
@@ -40,7 +53,6 @@
             contentType: "application/json",
             success: function (result) {
                 if (result) {
-                    console.log(result);
                     problemId = result.id;
                     document.getElementById("problem_desc").innerHTML = result.question + result.example;
                 } else {
@@ -52,6 +64,40 @@
                 alert(JSON.stringify(error));
             }
         })
+    }
+
+
+    function matchConnect() {
+        userId = "[[${userId}]]";
+        matchId = "[[${matchId}]]";
+        console.log(userId);
+
+        if (userId) {
+            var socket = new SockJS('/stomp');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, onMatchConnected, onError);
+        }
+    }
+
+
+    function onMatchConnected() {
+        stompClient.subscribe('/topic/public', onSystemMessageReceived);
+    }
+
+    function onError() {
+        alert("error");
+    }
+
+    function onSystemMessageReceived(payload) {
+        var message = JSON.parse(payload.body);
+        if (message.messageType === 'GAME_END') {
+            // document.location.href = "/match/result";
+        }
+        if (message.messageType === 'UPDATE_SCORE' && message.sender !== userId) {
+            document.getElementById("opponent_score").innerHTML = String(message.body);
+        }
+
+
     }
 
 
@@ -70,7 +116,12 @@
                 if (result) {
                     console.log(JSON.stringify(result));
                     if (result.testResult === 'succeed') {
-                        document.getElementById("score").innerHTML = "score = " + result.body;
+                        // document.getElementById("score").innerHTML = "score = " + result.body;
+                        document.getElementById("my_score").innerHTML = result.body;
+                        sendSocketSystemMessage('UPDATE_SCORE', matchId, userId, String(result.body));
+                        if (result.body === '100') {
+                            sendSocketSystemMessage('GAME_END', matchId, userId, null);
+                        }
                     } else {
                         document.getElementById("score").innerHTML = result.body;
                     }
@@ -83,6 +134,15 @@
                 console.log(JSON.stringify(error));
             }
         })
+    }
+
+    function sendSocketSystemMessage(messageType, matchId, sender, body) {
+        stompClient.send("/app/chat.sendData", {}, JSON.stringify({
+            messageType: messageType,
+            matchId: matchId,
+            sender: sender,
+            body: body
+        }));
     }
 
 
