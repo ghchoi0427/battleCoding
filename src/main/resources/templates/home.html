@@ -18,15 +18,7 @@
         </td>
     </tr>
 </table>
-<p></p>
-<script type="text/javascript">
-    function matchRequestPopup(sender, matchId) {
-        if (confirm(sender + "로부터 매치 요청이 도착했습니다: ")) {
-            redirectToMatch(matchId);
-        } else {
-            // alert("거절");
-        }
-    }
+
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
@@ -51,7 +43,6 @@
 
     function onConnected() {
         stompClient.subscribe('/topic/public', onMessageReceived);
-        // stompClient.send("/app/chat.addUser", {}, JSON.stringify({sender: username, type: 'JOIN'}));
     }
 
     function onError() {
@@ -86,15 +77,19 @@
 
     function sendMatchRequest(opponent) {
         getMatchSession(opponent);
-
     }
 
+    function matchRequestPopup(sender, matchId) {
+        if (confirm(sender + "로부터 매치 요청이 도착했습니다: ")) {
+            redirectToMatch(matchId);
+        } else {
+        }
+    }
 
     function onMessageReceived(payload) {
         var message = JSON.parse(payload.body);
         if (message.receiver === userId) {
-            let parse = JSON.parse(payload.body);
-            matchRequestPopup(String(message.sender), String(parse.matchId));
+            matchRequestPopup(String(message.sender), String(message.matchId));
         }
     }
 
