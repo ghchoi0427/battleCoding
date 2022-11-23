@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.UUID;
 
 @Controller
@@ -37,8 +40,12 @@ public class MatchController {
     }
 
     @GetMapping("/{matchId}")
-    public String enterMatch(@PathVariable String matchId, Model model) {
+    public String enterMatch(@PathVariable String matchId, Model model, HttpServletRequest request) {
         model.addAttribute("matchSession", matchService.getMatchSession(matchId));
+        Cookie[] cookies = request.getCookies();
+        String userId = Arrays.stream(cookies).filter(e -> e.getName().equals("userId")).map(Cookie::getValue).findFirst().get();
+        model.addAttribute("userId", userId);
+        model.addAttribute("matchId", matchId);
         return "match";
     }
 
