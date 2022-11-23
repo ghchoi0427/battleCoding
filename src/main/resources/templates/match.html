@@ -38,6 +38,7 @@
     var userId;
     var matchId;
     var offset;
+    const timeLimit = 60 * 30 * 1000;
 
     window.onload = function () {
         getProblem("[[${matchId}]]");
@@ -88,19 +89,6 @@
         alert("error");
     }
 
-    function onSystemMessageReceived(payload) {
-        var message = JSON.parse(payload.body);
-        if (message.messageType === 'GAME_END') {
-            // document.location.href = "/match/result";
-        }
-        if (message.messageType === 'UPDATE_SCORE' && message.sender !== userId) {
-            document.getElementById("opponent_score").innerHTML = String(message.body);
-        }
-
-
-    }
-
-
     function submit() {
         let code = document.getElementById("code_input").value;
 
@@ -121,6 +109,7 @@
                         sendSocketSystemMessage('UPDATE_SCORE', matchId, userId, String(result.body));
                         if (result.body === '100') {
                             sendSocketSystemMessage('GAME_END', matchId, userId, null);
+                            finishMatch();
                         }
                     } else {
                         document.getElementById("score").innerHTML = result.body;
@@ -136,6 +125,7 @@
         })
     }
 
+
     function sendSocketSystemMessage(messageType, matchId, sender, body) {
         stompClient.send("/app/chat.sendData", {}, JSON.stringify({
             messageType: messageType,
@@ -145,9 +135,37 @@
         }));
     }
 
+    function onSystemMessageReceived(payload) {
+        var message = JSON.parse(payload.body);
+
+        if (message.sender === userId) {
+            return;
+        }
+
+        if (message.messageType === 'GAME_END') {
+            finishMatch();
+        }
+
+        if (message.messageType === 'UPDATE_SCORE') {
+            document.getElementById("opponent_score").innerHTML = String(message.body);
+        }
+    }
+
 
     function setTimeOffset() {
         offset = new Date();
+    }
+
+    function handleTimeOver(timeElapsed) {
+        if (timeElapsed > timeLimit) {
+            sendSocketSystemMessage('GAME_END', matchId, userId, null);
+            finishMatch();
+        }
+    }
+
+    function finishMatch() {
+        alert("경기가 종료되었습니다.");
+        // document.location.href = "/match/result";
     }
 
 
@@ -155,6 +173,7 @@
         var countDownDate = offset;
         var now = new Date().getTime();
         var distance = now - countDownDate;
+        handleTimeOver(distance);
 
         var days = Math.floor(distance / (1000 * 60 * 60 * 24));
         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -166,7 +185,6 @@
 
         if (distance < 0) {
             clearInterval(x);
-            document.getElementById("demo").innerHTML = "EXPIRED";
         }
 
     }
