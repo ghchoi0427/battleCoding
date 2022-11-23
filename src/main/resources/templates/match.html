@@ -11,22 +11,16 @@
 <p th:text="'guest id = '+${matchSession.getGuestId()}"></p>
 <p th:text="'problem id = '+${matchSession.getProblemId()}"></p>
 
-<a th:text="'my score:'"></a>
-<a id="my_score"></a>
+<a th:text="'my score:'"></a><a id="my_score">0</a>
 <p></p>
-<a th:text="'opponent\'s score:'"></a>
-<a id="opponent_score"></a>
-
+<a th:text="'opponent\'s score:'"></a><a id="opponent_score">0</a>
 <p id="problem_desc"></p>
 
-<p>
-    <textarea id="code_input" placeholder="코드를 입력하세요"></textarea>
-</p>
+<p><textarea id="code_input" placeholder="코드를 입력하세요"></textarea></p>
 <p>
     <button th:onclick="submit()">submit</button>
 </p>
 
-<p id="score"></p>
 <p id="demo"></p>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
@@ -36,6 +30,7 @@
     var stompClient = null;
     var problemId;
     var userId;
+    var opponentId;
     var matchId;
     var offset;
     const timeLimit = 60 * 30 * 1000;
@@ -71,6 +66,7 @@
     function matchConnect() {
         userId = "[[${userId}]]";
         matchId = "[[${matchId}]]";
+        opponentId = "[[${matchSession.getGuestId()}]]";
         console.log(userId);
 
         if (userId) {
@@ -165,7 +161,36 @@
 
     function finishMatch() {
         alert("경기가 종료되었습니다.");
-        // document.location.href = "/match/result";
+        //TODO 경기 결과 반영
+        saveMatchRecord('win');
+
+    }
+
+    function saveMatchRecord(matchResult) {
+        $.ajax({
+            url: "/match/save",
+            type: "POST",
+            data: JSON.stringify({
+                memberId: userId,
+                opponentId: opponentId,
+                matchResult: matchResult
+
+            }),
+            contentType: "application/json",
+            success: function (result) {
+                if (result) {
+                    redirectToMatchResult(result);
+                }
+            },
+            error: function (error) {
+                alert("경기 결과 저장 에러 발생");
+                console.log(JSON.stringify(error));
+            }
+        })
+    }
+
+    function redirectToMatchResult(matchResultId) {
+        document.location.href = "/match/result/" + matchResultId;
     }
 
 
@@ -175,16 +200,12 @@
         var distance = now - countDownDate;
         handleTimeOver(distance);
 
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-            + minutes + "m " + seconds + "s ";
+        document.getElementById("demo").innerHTML = minutes + "분 " + seconds + "초 ";
 
         if (distance < 0) {
-            clearInterval(x);
         }
 
     }

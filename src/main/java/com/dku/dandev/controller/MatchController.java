@@ -61,15 +61,17 @@ public class MatchController {
         return problemService.findProblem(problemId);
     }
 
+    @ResponseBody
     @PostMapping("/save")
-    public void saveMatchRecord(@RequestBody MatchRecord matchRecord) {
+    public Long saveMatchRecord(@RequestBody MatchRecord matchRecord) {
         saveHeadToHead(matchRecord);//TODO: HeadToHead 필요한가
-        matchService.saveMatchRecord(matchRecord);
+        return matchService.saveMatchRecord(matchRecord);
     }
 
-    @GetMapping("/result/{matchResultId}")
-    public MatchRecord matchResult(@PathVariable Long matchResultId) {
-        return matchService.getMatchRecord(matchResultId);
+    @GetMapping("/result/{matchRecordId}")
+    public String matchResult(@PathVariable Long matchRecordId, Model model) {
+        model.addAttribute("matchRecord", matchService.getMatchRecord(matchRecordId));
+        return "match-result";
     }
 
     private String getMatchId() {
@@ -77,15 +79,15 @@ public class MatchController {
     }
 
     private void saveHeadToHead(MatchRecord matchRecord) {
-        Long host = matchRecord.getMemberId();
-        Long guest = matchRecord.getOpponentId();
-        matchService.saveHeadToHead(new HeadToHead(host, guest, matchRecord.getMatchResult()));
-        if (matchRecord.getMatchResult() == MatchResult.draw) {
-            matchService.saveHeadToHead(new HeadToHead(guest, host, MatchResult.draw));
-        } else if (matchRecord.getMatchResult() == MatchResult.win) {
-            matchService.saveHeadToHead(new HeadToHead(guest, host, MatchResult.lose));
-        } else if (matchRecord.getMatchResult() == MatchResult.lose) {
-            matchService.saveHeadToHead(new HeadToHead(guest, host, MatchResult.win));
-        }
+        String host = matchRecord.getMemberId();
+        String guest = matchRecord.getOpponentId();
+//        matchService.saveHeadToHead(new HeadToHead(host, guest, matchRecord.getMatchResult()));
+//        if (matchRecord.getMatchResult() == MatchResult.draw) {
+//            matchService.saveHeadToHead(new HeadToHead(guest, host, MatchResult.draw));
+//        } else if (matchRecord.getMatchResult() == MatchResult.win) {
+//            matchService.saveHeadToHead(new HeadToHead(guest, host, MatchResult.lose));
+//        } else if (matchRecord.getMatchResult() == MatchResult.lose) {
+//            matchService.saveHeadToHead(new HeadToHead(guest, host, MatchResult.win));
+//        }
     }
 }

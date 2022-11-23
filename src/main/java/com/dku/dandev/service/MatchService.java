@@ -28,8 +28,9 @@ public class MatchService {
         this.headToHeadRepository = headToHeadRepository;
     }
 
-    public void saveMatchRecord(MatchRecord matchRecord) {
-        matchRecordRepository.save(matchRecord);
+    public Long saveMatchRecord(MatchRecord matchRecord) {
+        MatchRecord savedMatchRecord = matchRecordRepository.save(matchRecord);
+        return savedMatchRecord.getId();
     }
 
     public MatchRecord getMatchRecord(Long matchRecordId) {

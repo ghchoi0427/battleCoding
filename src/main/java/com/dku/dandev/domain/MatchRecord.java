@@ -12,8 +12,8 @@ public class MatchRecord {
     @Id
     @GeneratedValue
     private Long id;
-    private Long memberId; // 대결을 신청한 사람의 ID
-    private Long opponentId; // 대결을 수락한 사람의 ID
+    private String memberId; // 대결을 신청한 사람의 ID
+    private String opponentId; // 대결을 수락한 사람의 ID
     private MatchResult matchResult;    //대결을 신청한 사람 기준으로 승패여부
 
     public void setId(Long id) {
@@ -24,19 +24,19 @@ public class MatchRecord {
         return id;
     }
 
-    public Long getMemberId() {
+    public String getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(Long memberId) {
+    public void setMemberId(String memberId) {
         this.memberId = memberId;
     }
 
-    public Long getOpponentId() {
+    public String getOpponentId() {
         return opponentId;
     }
 
-    public void setOpponentId(Long opponentId) {
+    public void setOpponentId(String opponentId) {
         this.opponentId = opponentId;
     }
 
