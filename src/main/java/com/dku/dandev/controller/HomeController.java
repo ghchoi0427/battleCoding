@@ -25,6 +25,7 @@ public class HomeController {
 
     @GetMapping("/test")
     public String homeTest() {
+        //build
         return "autonomous build";
     }
 }
