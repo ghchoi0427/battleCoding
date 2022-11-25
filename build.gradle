@@ -26,10 +26,10 @@ tasks.named('test') {
 }
 
 bootJar {
-    mainClassName = "com.dku.dandev.DandevApplication"
+    bootJarMainClassName { "com.dku.dandev.DandevApplication" }
 }
 
 bootRun {
     String activeProfile = System.properties['spring.profiles.active']
-    systemProperty "spring.profiles.active",activeProfile
+    systemProperty "spring.profiles.active", activeProfile
 }
