@@ -25,7 +25,7 @@ public class HomeController {
 
     @GetMapping("/test")
     public String homeTest() {
-        //push trigger test #6
-        return "autonomous build #6";
+        //push trigger test #7
+        return "autonomous build #7";
     }
 }
