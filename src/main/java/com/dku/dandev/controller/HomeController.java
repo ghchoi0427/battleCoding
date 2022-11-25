@@ -22,4 +22,9 @@ public class HomeController {
     public List<MemberDto> home() {
         return memberService.findAll();
     }
+
+    @GetMapping("/test")
+    public String homeTest() {
+        return "autonomous build";
+    }
 }
