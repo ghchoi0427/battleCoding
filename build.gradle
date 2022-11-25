@@ -24,3 +24,12 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+bootJar {
+    bootJarMainClassName = "com.dku.dandev.DandevApplication"
+}
+
+bootRun {
+    String activeProfile = System.properties['spring.profiles.active']
+    systemProperty "spring.profiles.active",activeProfile
+}
