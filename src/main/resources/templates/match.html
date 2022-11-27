@@ -90,6 +90,7 @@
         .problem-box{
           height: 70vh;
         }
+
         .participant{
           display: flex;
           position: relative;
@@ -140,6 +141,9 @@
         }
         .result-box{
             display: block;
+            }
+        #code{
+            width: 100%;
             }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -250,11 +254,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 <script>
-    var textArea = document.getElementById('code');
-    CodeMirror.fromTextArea(textArea, {
-        lineNumbers: true,
-        mode: "text/x-java",
-    });
+
     var stompClient = null;
     var problemId;
     var userId;
