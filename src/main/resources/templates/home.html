@@ -3,21 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+    <style>
+        html, body{
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+        .contents{
+            flex: 1;
+        }
+        .wrapper{
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .login-container{
+        width: 50%
+        }
+        footer{
+          background-color: #273238;
+          color: white;
+          width: 100%;
+          padding: 30px 0;
+          /* flex를 사용할땐 푸터에 높이를 주지 않는다 */
+        }
+
+        .navbar{
+          background-color: #273238;
+          --bs-navbar-disabled-color: white;
+          --bs-navbar-active-color: white;
+          --bs-navbar-brand-color: #f2f2f2
+          --bs-navbar-brand-hover-color: #f2f2f2;
+          height: 80px;
+        }
+
+        .navbar-brand{
+          color: white;
+        }
+
+        .navbar-brand:hover{
+          color: white;
+        }
+
+        .nav-link{
+          color: white;
+        }
+
+        .nav-link:hover{
+          color: #f2f2f2;
+        }
+        .tb_col{
+            margin-top: 5%;
+            text-align: center;
+        }
+        th{
+            width: 50%;
+            }
+        .battle-btn{
+            width: 100%;
+            height: 100%;
+            border: 1px solid #dee2e6;
+            background-color: white;
+        }
+    </style>
 </head>
 <body>
-<table class="tb_col">
-    <tr>
-        <th>name</th>
-    </tr>
-    <tr th:each="member : ${members}">
-        <td th:text="${member.getLoginId()}"></td>
-        <td>
-            <button th:loginId="${member.getLoginId()}" th:onclick="sendMatchRequest(this.getAttribute('loginId'))">대결
-                신청
-            </button>
-        </td>
-    </tr>
-</table>
+<div class="wrapper">
+    <!--header-->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <a href="/" class="navbar-brand" style="text-decoration:none;">
+                    Battle Coding
+                </a>
+            </div>
+            <!--주석-->
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link login-link" href="/login">로그인</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link signup-link" href="/signup">회원가입</a>
+                </li>
+            </ul>
+
+
+        </div><!-- /.container-fluid -->
+    </nav>
+    <!--/header-->
+
+    <!--body-->
+    <div class="container contents">
+        <div class="container">
+            <table class="tb_col table">
+                <tr>
+                    <th>아이디</th>
+                    <th>배틀 신청 버튼</th>
+                </tr>
+                <tr th:each="member : ${members}">
+                    <td th:text="${member.getLoginId()}"></td>
+                    <td>
+                        <button class="battle-btn" th:loginId="${member.getLoginId()}" th:onclick="sendMatchRequest(this.getAttribute('loginId'))">대결
+                            신청
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <!--/body-->
+
+    <!--footer-->
+    <footer class="footer">
+        <div class="container">
+            <p>Copyright 2022 Phoenix. All Right Reserved. Designed by Leekee0905</p>
+        </div>
+    </footer>
+    <!--/footer-->
+</div>
+
 
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
