@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
     <title>Hello</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
@@ -34,7 +33,7 @@
           background-color: #273238;
           --bs-navbar-disabled-color: white;
           --bs-navbar-active-color: white;
-          --bs-navbar-brand-color: #f2f2f2
+          --bs-navbar-brand-color: #f2f2f2;
           --bs-navbar-brand-hover-color: #f2f2f2;
           height: 100px;
         }
@@ -100,15 +99,17 @@
 <!--body-->
 <div class="container contents">
     <div class="container login-container">
-        <form class="logintype">
+        <form class="logintype" th:action="@{/login}" th:object="${loginForm}" method="post">
             <div class="form-group">
-                <label for="exampleInputEmail1">아이디</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="아이디를 입력하세요.">
+                <label for="loginId">아이디</label>
+<!--                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="아이디를 입력하세요.">-->
+                <input type="email" th:field="*{loginId}" class="form-control" id="loginId" aria-describedby="emailHelp" placeholder="아이디를 입력하세요.">
+
                 <small id="emailHelp" class="form-text text-muted">여기에 메시지</small>
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">비밀번호</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="비밀번호를 입력하세요.">
+                <label for="password">비밀번호</label>
+                <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="비밀번호를 입력하세요.">
             </div>
             <button type="submit" class="btn btn-primary submitbtn">Submit</button>
         </form>
