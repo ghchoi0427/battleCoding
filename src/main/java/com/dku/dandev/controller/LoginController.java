@@ -25,23 +25,31 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String loginForm(@ModelAttribute("loginForm") LoginForm form) {
-        return "login";
+    public String loginForm(@ModelAttribute("loginForm") LoginForm form, Model model) {
+        System.out.println("call");
+        model.addAttribute("form", form);
+        return "/login";
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
+    public String login(@ModelAttribute LoginForm loginForm, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
+            System.out.println("error");
             return "/login";
         }
-        Member loginMember = memberService.login(form.getLoginId(), form.getPassword());
+        System.out.println(loginForm.getLoginId());
+        System.out.println(loginForm.getPassword());
+        Member loginMember = memberService.login(loginForm.getLoginId(), loginForm.getPassword());
         if (loginMember == null) {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+            System.out.println("login fail");
             return "/login";
         }
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+        System.out.println("complete");
         return "/home";
+        // return "/home";
     }
 
     @PostMapping("/logout")
@@ -61,12 +69,21 @@ public class LoginController {
         //TODO: 멤버정보 템플릿 만들기
     }
 
+    @GetMapping("/signup")
+    public String signUpForm(Model model) {
+        model.addAttribute("member", new MemberDto());
+        return "signup";
+    }
+
     @PostMapping("/signup")
-    public String save(@RequestBody MemberDto memberDto, BindingResult result) {
+    public String save(@ModelAttribute("member") MemberDto memberDto, BindingResult result) {
         if (result.hasErrors()) {
+            System.out.println("error");
             return "/signup";
         }
         memberService.saveMember(memberDto);
-        return "/login";
+        System.out.println(memberDto.getLoginId());
+        System.out.println(memberDto.getPassword());
+        return "/home";
     }
 }
