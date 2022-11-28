@@ -39,7 +39,7 @@
           --bs-navbar-hover-color:white;
           --bs-link-color: white;
           --bs-link-hover-color: white;
-          --bs-navbar-brand-color: #f2f2f2
+          --bs-navbar-brand-color: #f2f2f2;
           --bs-navbar-brand-hover-color: #f2f2f2;
           --bs-navbar-brand-hover-color: white;
           height: 80px;
@@ -93,61 +93,9 @@
 
 </head>
 <body>
-<div class="wrapper">
-    <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <a href="/" class="navbar-brand" style="text-decoration:none;">
-                    Battle Coding
-                </a>
-            </div>
-            <!--주석-->
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link login-link" href="/login">로그인</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link signup-link" href="/signup">회원가입</a>
-                </li>
-            </ul>
-
-
-        </div><!-- /.container-fluid -->
-    </nav>
-    <!--/header-->
-
-    <div class="contents container">
-        <div class="matchRecordId">
-            <a>matchRecordId=</a><a th:text="${matchRecord.getId()}"></a>
-        </div>
-        <div class="row">
-            <div class="col">
-                <ul class="participant">
-                    <li class="host">
-                        <a>host id=</a><a th:text="${matchRecord.getMemberId()}"></a>
-                    </li>
-                    <li class="guest">
-                        <a>guest id=</a><a th:text="${matchRecord.getOpponentId()}"></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="matchResult">
-            <a>matchResult=</a><a th:text="${matchRecord.getMatchResult()}"></a>
-        </div>
-    </div>
-
-
-<!--footer-->
-<footer class="footer">
-    <div class="container">
-        <p>Copyright 2022 Phoenix. All Right Reserved. Designed by Leekee0905</p>
-    </div>
-</footer>
-
-
-</div>
+<p><a>matchRecordId=</a><a th:text="${matchRecord.getId()}"></a></p>
+<p><a>host id=</a><a th:text="${matchRecord.getMemberId()}"></a></p>
+<p><a>guest id=</a><a th:text="${matchRecord.getOpponentId()}"></a></p>
+<p><a>matchResult=</a><a th:text="${matchRecord.getMatchResult()}"></a></p>
 </body>
 </html>
