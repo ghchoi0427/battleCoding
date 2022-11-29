@@ -27,9 +27,9 @@ public class HomeController {
     public String home(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         System.out.println(session.getAttribute("loginMember"));
-        Member user = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        System.out.println("Home -  user.getLoginId() = " + user.getLoginId());
-        model.addAttribute("userID", user.getLoginId());
+        String userId = (String) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        System.out.println("Home -  user.getLoginId() = " + userId);
+        model.addAttribute("userID", userId);
         model.addAttribute("members", memberService.findAll());
         return "home";
     }

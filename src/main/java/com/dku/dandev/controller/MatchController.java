@@ -4,6 +4,7 @@ import com.dku.dandev.domain.*;
 import com.dku.dandev.dto.MatchRequestDto;
 import com.dku.dandev.service.MatchService;
 import com.dku.dandev.service.ProblemService;
+import com.dku.dandev.session.SessionConst;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -42,8 +43,9 @@ public class MatchController {
     @GetMapping("/{matchId}")
     public String enterMatch(@PathVariable String matchId, Model model, HttpServletRequest request) {
         model.addAttribute("matchSession", matchService.getMatchSession(matchId));
-        Cookie[] cookies = request.getCookies();
-        String userId = Arrays.stream(cookies).filter(e -> e.getName().equals("userId")).map(Cookie::getValue).findFirst().get();
+        String userId = (String) request.getSession().getAttribute(SessionConst.LOGIN_MEMBER);
+//        Cookie[] cookies = request.getCookies();
+//        String userId = Arrays.stream(cookies).filter(e -> e.getName().equals("userId")).map(Cookie::getValue).findFirst().get();
         model.addAttribute("userId", userId);
         model.addAttribute("matchId", matchId);
         return "match";

@@ -37,8 +37,6 @@ public class LoginController {
             System.out.println("error");
             return "/login";
         }
-        System.out.println(loginForm.getLoginId());
-        System.out.println(loginForm.getPassword());
         Member loginMember = memberService.login(loginForm.getLoginId(), loginForm.getPassword());
         if (loginMember == null) {
             bindingResult.reject("loginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
@@ -46,8 +44,7 @@ public class LoginController {
             return "/login";
         }
         HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
-        System.out.println("complete");
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember.getLoginId());
         return "redirect:/home";
     }
 
