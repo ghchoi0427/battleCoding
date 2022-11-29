@@ -2,6 +2,7 @@ package com.dku.dandev.controller;
 
 import com.dku.dandev.domain.Member;
 import com.dku.dandev.service.MemberService;
+import com.dku.dandev.session.SessionConst;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,10 +27,8 @@ public class HomeController {
     public String home(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         System.out.println(session.getAttribute("loginMember"));
-        Member user = (Member)session.getAttribute("loginMember");
-
-        System.out.println(user.getLoginId());
-        System.out.println(memberService.findAll());
+        Member user = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        System.out.println("Home -  user.getLoginId() = " + user.getLoginId());
         model.addAttribute("userID", user.getLoginId());
         model.addAttribute("members", memberService.findAll());
         return "home";

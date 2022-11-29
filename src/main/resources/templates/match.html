@@ -31,13 +31,13 @@
           /* flex를 사용할땐 푸터에 높이를 주지 않는다 */
         }
 
-        .navbar{
-          background-color: #273238;
-          --bs-navbar-disabled-color: white;
-          --bs-navbar-active-color: white;
-          --bs-navbar-brand-color: #f2f2f2
-          --bs-navbar-brand-hover-color: #f2f2f2;
-          height: 80px;
+        .navbar {
+            background-color: #273238;
+            --bs-navbar-disabled-color: white;
+            --bs-navbar-active-color: white;
+            --bs-navbar-brand-color: #f2f2f2;
+            --bs-navbar-brand-hover-color: #f2f2f2;
+            height: 80px;
         }
 
         .navbar-brand{
@@ -146,8 +146,6 @@
             width: 100%;
             }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/codemirror.min.css" integrity="sha512-uf06llspW44/LZpHzHT6qBOIVODjWtv4MxCricRxkzvopAlSWnTf6hpZTFxuuZcuNE9CBQhqE0Seu1CoRk84nQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.10/codemirror.min.js" integrity="sha512-5Z07kVtu0rOCOkYY270NlHhvA571vw8qm8pbr23iiFMfuFEJv1S0QMU6RMx0E1JrR7GiAn+1/Pi05hbcY+eqsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script></script>
 </head>
 <body>
 <div class="wrapper">
@@ -209,7 +207,7 @@
             <div class="col codebox">
                 <div class="form-group">
                     <div class="form-control code-editor">
-                        <textarea id="code" rows="25" th:name="code" th:field="*{code}"></textarea>
+                        <textarea id="code_input"></textarea>
                     </div>
                     <button class="submit-btn" th:onclick="submit()">제출</button>
                 </div>
@@ -336,7 +334,7 @@
                             finishMatch();
                         }
                     } else {
-                        document.getElementById("score").innerHTML = result.body;
+                        document.getElementById("my_score").innerHTML = result.body;
                     }
                 } else {
                     alert("반환 데이터가 없습니다.");
