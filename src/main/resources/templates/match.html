@@ -259,13 +259,15 @@
     var opponentId;
     var matchId;
     var offset;
+    var isGameStarted = false;
     const timeLimit = 60 * 30 * 1000;
 
     window.onload = function () {
         getProblem("[[${matchId}]]");
         setInterval(countDown, 1000);
-        setTimeOffset()
+
         matchConnect();
+
     };
 
     function getProblem(matchId) {
@@ -293,18 +295,24 @@
         userId = "[[${userId}]]";
         matchId = "[[${matchId}]]";
         opponentId = "[[${matchSession.getGuestId()}]]";
-        console.log(userId);
+
+
+
+
 
         if (userId) {
             var socket = new SockJS('/stomp');
             stompClient = Stomp.over(socket);
             stompClient.connect({}, onMatchConnected, onError);
         }
+
+
     }
 
 
     function onMatchConnected() {
         stompClient.subscribe('/topic/public', onSystemMessageReceived);
+        sendSocketSystemMessage('ARRIVED', matchId, userId, null);
     }
 
     function onError() {
@@ -360,6 +368,11 @@
     function onSystemMessageReceived(payload) {
         var message = JSON.parse(payload.body);
 
+        if (message.messageType === 'GAME_START') {
+            setTimeOffset()
+            isGameStarted = true;
+        }
+
         if (message.sender === userId) {
             return;
         }
@@ -370,6 +383,9 @@
 
         if (message.messageType === 'UPDATE_SCORE') {
             document.getElementById("opponent_score").innerHTML = String(message.body);
+        }
+        if (message.messageType === 'ARRIVED') {
+            sendSocketSystemMessage('GAME_START', matchId, userId, null);
         }
     }
 
@@ -421,6 +437,9 @@
 
 
     function countDown() {
+        if (isGameStarted === false) {
+            return;
+        }
         var countDownDate = offset;
         var now = new Date().getTime();
         var distance = now - countDownDate;

@@ -3,7 +3,7 @@ package com.dku.dandev.domain;
 public class SystemMessage {
 
     public enum MessageType {
-        ENTER, GAME_START, GAME_END, UPDATE_SCORE
+        ENTER, GAME_START, GAME_END, UPDATE_SCORE, ARRIVED
     }
 
     private MessageType messageType;
